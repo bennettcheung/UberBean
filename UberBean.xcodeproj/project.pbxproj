@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		910E014B21276F580045A6F4 /* Cafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 910E014A21276F580045A6F4 /* Cafe.m */; };
 		91C7C6482126458800A48ECE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C7C6472126458800A48ECE /* AppDelegate.m */; };
 		91C7C64B2126458800A48ECE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C7C64A2126458800A48ECE /* ViewController.m */; };
 		91C7C64E2126458800A48ECE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91C7C64C2126458800A48ECE /* Main.storyboard */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		910E014921276F580045A6F4 /* Cafe.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cafe.h; sourceTree = "<group>"; };
+		910E014A21276F580045A6F4 /* Cafe.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Cafe.m; sourceTree = "<group>"; };
 		91C7C6432126458800A48ECE /* UberBean.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UberBean.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91C7C6462126458800A48ECE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		91C7C6472126458800A48ECE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -105,6 +108,8 @@
 				91C7C6472126458800A48ECE /* AppDelegate.m */,
 				91C7C6492126458800A48ECE /* ViewController.h */,
 				91C7C64A2126458800A48ECE /* ViewController.m */,
+				910E014921276F580045A6F4 /* Cafe.h */,
+				910E014A21276F580045A6F4 /* Cafe.m */,
 				91C7C64C2126458800A48ECE /* Main.storyboard */,
 				91C7C64F2126458900A48ECE /* Assets.xcassets */,
 				91C7C6512126458900A48ECE /* LaunchScreen.storyboard */,
@@ -262,6 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				910E014B21276F580045A6F4 /* Cafe.m in Sources */,
 				91C7C64B2126458800A48ECE /* ViewController.m in Sources */,
 				91C7C6562126458900A48ECE /* main.m in Sources */,
 				91C7C6482126458800A48ECE /* AppDelegate.m in Sources */,
