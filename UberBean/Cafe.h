@@ -9,11 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
-@interface Cafe : NSObject
+@interface Cafe : NSObject <MKAnnotation>
 
 @property (nonatomic, strong) NSString* imageURL;
-@property (nonatomic, strong) NSString* name;
-@property (nonatomic, assign) CLLocationCoordinate2D coordinates;
+@property (nonatomic, readonly, copy, nullable) NSString* title;
+@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 @property (nonatomic, strong) NSString* rating;
 
+- (instancetype)initWithTitle:(NSString*)name coordinate:(CLLocationCoordinate2D)coordinate rating:(NSString*)rating imageURL:(NSString*)imageURL;
 @end

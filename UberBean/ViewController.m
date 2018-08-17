@@ -41,10 +41,10 @@
     [self.locationManager requestWhenInUseAuthorization];
     
     //------
-    //self.mapView.delegate = self;
+    self.mapView.delegate = self;
     self.mapView.showsUserLocation = YES;
     self.mapView.showsPointsOfInterest = YES;
-
+    [self.mapView registerClass:[MKMarkerAnnotationView class] forAnnotationViewWithReuseIdentifier:@"cafeAnnotation"];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
@@ -68,6 +68,22 @@
     {
         [self.locationManager requestLocation];
     }
+    
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
+    if ([annotation isKindOfClass:[Cafe class]]) {
+        MKMarkerAnnotationView *marker = (MKMarkerAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"cafeAnnotation" forAnnotation:annotation];
+        
+        marker.markerTintColor = [UIColor redColor];
+        marker.glyphText = annotation.title;
+        marker.titleVisibility = MKFeatureVisibilityVisible;
+        marker.animatesWhenAdded = YES;
+        
+        return marker;
+    }
+    
+    return nil;
     
 }
 
@@ -103,23 +119,22 @@
         
         // If we reach this point, we have successfully retrieved the JSON from the API
         for (NSDictionary *business in businesses) { // 4
-            Cafe *newCafe = [Cafe new];
-            
-            newCafe.name = business[@"name"];
-            newCafe.imageURL = business[@"image_url"];
-            newCafe.rating = business[@"rating"];
-            
             NSDictionary* coordinates = business[@"coordinates"];
             CLLocationCoordinate2D newCoordinates = CLLocationCoordinate2DMake([coordinates[@"latitude"] doubleValue], [coordinates[@"longitude"] doubleValue] );
             
-            newCafe.coordinates = newCoordinates;
-            NSLog(@"cafe: %@ \n rating: %@ \n imageurl: %@\n coordinates: %f %F\n", newCafe.name, newCafe.rating, newCafe.imageURL, newCafe.coordinates.longitude, newCafe.coordinates.latitude);
+            Cafe *newCafe = [[Cafe alloc]initWithTitle:business[@"name"] coordinate:newCoordinates rating:business[@"rating"] imageURL:business[@"image_url"]];
+            
+            NSLog(@"cafe: %@ \n rating: %@ \n imageurl: %@\n coordinates: %f %F\n", newCafe.title, newCafe.rating, newCafe.imageURL, newCafe.coordinate.longitude, newCafe.coordinate.latitude);
             
             [self.cafeArray addObject:newCafe];
         }
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             // This will run on the main queue
+            for (int i=0; i< [self.cafeArray count]; i++)
+            {
+                [self.mapView addAnnotation:self.cafeArray[i]];
+            }
         }];
         
     }]; // 5
