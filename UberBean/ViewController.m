@@ -44,6 +44,7 @@
     self.mapView.delegate = self;
     self.mapView.showsUserLocation = YES;
     self.mapView.showsPointsOfInterest = YES;
+    self.mapView.userInteractionEnabled = YES;
     [self.mapView registerClass:[MKMarkerAnnotationView class] forAnnotationViewWithReuseIdentifier:@"cafeAnnotation"];
 }
 
@@ -70,21 +71,39 @@
     }
     
 }
+// Mark: mapviewdelegate methods
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
     if ([annotation isKindOfClass:[Cafe class]]) {
         MKMarkerAnnotationView *marker = (MKMarkerAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"cafeAnnotation" forAnnotation:annotation];
         
+        
         marker.markerTintColor = [UIColor redColor];
         marker.glyphText = annotation.title;
-        marker.titleVisibility = MKFeatureVisibilityVisible;
+//        marker.titleVisibility = MKFeatureVisibilityVisible;
         marker.animatesWhenAdded = YES;
+        marker.canShowCallout = YES;
+        marker.calloutOffset = CGPointMake(-5, 5);
+        marker.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeInfoLight];
         
         return marker;
     }
     
     return nil;
     
+}
+
+-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
+    Cafe* cafe = view.annotation;
+    if (!cafe.image){
+        //load Image
+        cafe.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:cafe.imageURL]]];
+    }
+    UIImageView *imageView = [[UIImageView alloc]initWithImage: cafe.image];
+    [imageView setContentMode:UIViewContentModeScaleAspectFit];
+    
+    view.detailCalloutAccessoryView = imageView;
+   
 }
 
 // Mark: Setup connection to the Yelp API
@@ -122,7 +141,8 @@
             NSDictionary* coordinates = business[@"coordinates"];
             CLLocationCoordinate2D newCoordinates = CLLocationCoordinate2DMake([coordinates[@"latitude"] doubleValue], [coordinates[@"longitude"] doubleValue] );
             
-            Cafe *newCafe = [[Cafe alloc]initWithTitle:business[@"name"] coordinate:newCoordinates rating:business[@"rating"] imageURL:business[@"image_url"]];
+            NSString* ratingString = [NSString stringWithFormat:@"%@", business[@"rating"]];
+            Cafe *newCafe = [[Cafe alloc]initWithTitle:business[@"name"] coordinate:newCoordinates rating:ratingString imageURL:business[@"image_url"]];
             
             NSLog(@"cafe: %@ \n rating: %@ \n imageurl: %@\n coordinates: %f %F\n", newCafe.title, newCafe.rating, newCafe.imageURL, newCafe.coordinate.longitude, newCafe.coordinate.latitude);
             
